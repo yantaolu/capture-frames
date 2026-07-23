@@ -36,4 +36,37 @@ describe('FrameSampler', () => {
     const sampler = new FrameSampler()
     expect(sampler.getEstimatedFrameDuration(60)).toBeCloseTo(1 / 60, 6)
   })
+
+  it('forces the configured frame rate when manual mode is selected', () => {
+    let callback: VideoFrameRequestCallback | undefined
+    const video = {
+      requestVideoFrameCallback(next: VideoFrameRequestCallback) {
+        callback = next
+        return 1
+      },
+      cancelVideoFrameCallback() {},
+    } as unknown as HTMLVideoElement
+    const sampler = new FrameSampler()
+    sampler.bind(video)
+    callback?.(performance.now(), {
+      mediaTime: 0,
+      presentedFrames: 1,
+      width: 1920,
+      height: 1080,
+      presentationTime: 0,
+      expectedDisplayTime: 0,
+      processingDuration: 0,
+    })
+    callback?.(performance.now(), {
+      mediaTime: 1 / 24,
+      presentedFrames: 2,
+      width: 1920,
+      height: 1080,
+      presentationTime: 0,
+      expectedDisplayTime: 0,
+      processingDuration: 0,
+    })
+
+    expect(sampler.getEstimatedFrameDuration(60)).toBeCloseTo(1 / 60, 6)
+  })
 })

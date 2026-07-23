@@ -53,6 +53,8 @@ export class FrameSampler {
   }
 
   getEstimatedFrameDuration(manualFps?: number): number {
+    if (manualFps && manualFps > 0) return 1 / manualFps
+
     const deltas: number[] = []
     for (let index = 1; index < this.mediaTimes.length; index += 1) {
       const previous = this.mediaTimes[index - 1]
@@ -67,8 +69,7 @@ export class FrameSampler {
       return deltas[Math.floor(deltas.length / 2)] ?? 1 / DEFAULT_FPS
     }
 
-    const fps = manualFps && manualFps > 0 ? manualFps : DEFAULT_FPS
-    return 1 / fps
+    return 1 / DEFAULT_FPS
   }
 
   private schedule(): void {

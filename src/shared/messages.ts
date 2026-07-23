@@ -3,6 +3,7 @@ import type { CommandName } from './constants'
 export type ExtensionMessage =
   | { type: 'capture-frames:command'; command: CommandName }
   | { type: 'capture-frames:ping' }
+  | { type: 'capture-frames:sync-auto-sites' }
   | { type: 'capture-frames:capture-visible-tab' }
 
 export interface MessageResponse {

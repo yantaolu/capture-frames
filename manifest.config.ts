@@ -9,6 +9,7 @@ export default defineManifest({
   version: pkg.version,
   minimum_chrome_version: '116',
   permissions: ['activeTab', 'scripting', 'storage'],
+  optional_host_permissions: ['https://*/*', 'http://*/*'],
   icons: {
     16: 'icons/icon-16.png',
     32: 'icons/icon-32.png',

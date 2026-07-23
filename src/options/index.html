@@ -37,6 +37,24 @@
         >
       </section>
 
+      <section>
+        <h2>自动启用网站</h2>
+        <p class="hint">授权后，打开这些网站时会自动等待并识别视频。</p>
+        <button id="enable-recommended" type="button">启用推荐视频网站</button>
+        <p class="hint">推荐：爱奇艺、优酷、腾讯视频、哔哩哔哩及 B 站直播。</p>
+
+        <div class="site-form">
+          <input
+            id="site-address"
+            type="text"
+            inputmode="url"
+            placeholder="例如：www.example.com"
+          />
+          <button id="add-site" type="button" class="secondary">添加网站</button>
+        </div>
+        <ul id="site-list" class="site-list"></ul>
+      </section>
+
       <div class="actions">
         <button id="save" type="button">保存设置</button>
         <button id="reset" type="button" class="secondary">恢复默认</button>

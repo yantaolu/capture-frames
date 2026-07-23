@@ -12,6 +12,8 @@ import { TargetSelector } from './video/target-selector'
 import type { VideoCandidate } from './video/video-candidate'
 import { VideoRegistry } from './video/video-registry'
 
+export type ActivationMode = 'manual' | 'auto'
+
 export class CaptureFramesApp {
   private readonly registry = new VideoRegistry()
   private readonly selector = new TargetSelector()
@@ -25,9 +27,11 @@ export class CaptureFramesApp {
   private targetCleanup: (() => void) | null = null
   private unsubscribeRegistry: (() => void) | null = null
   private active = false
+  private waitingForAutoVideo: boolean
 
-  private constructor(settings: Settings) {
+  private constructor(settings: Settings, mode: ActivationMode) {
     this.settings = settings
+    this.waitingForAutoVideo = mode === 'auto'
     this.controller = new FrameController(() => this.settings)
     this.toolbar = new Toolbar(
       {
@@ -43,13 +47,15 @@ export class CaptureFramesApp {
     this.toolbar.root.id = APP_ROOT_ID
   }
 
-  static async create(): Promise<CaptureFramesApp> {
-    const app = new CaptureFramesApp(await loadSettings())
+  static async create(mode: ActivationMode = 'manual'): Promise<CaptureFramesApp> {
+    const app = new CaptureFramesApp(await loadSettings(), mode)
     app.start()
     return app
   }
 
   focus(): void {
+    this.waitingForAutoVideo = false
+    this.toolbar.setHidden(false)
     this.toolbar.showToast(this.target ? '逐帧控制已启用' : '当前页面未发现可操作的视频')
   }
 
@@ -119,6 +125,7 @@ export class CaptureFramesApp {
   private start(): void {
     this.active = true
     this.toolbar.mount()
+    if (this.waitingForAutoVideo) this.toolbar.setHidden(true)
     this.controller.setStateListener((state) =>
       this.toolbar.setBusy(
         state !== 'idle' && state !== 'error' && !this.controller.isAutoPlaying(),
@@ -133,7 +140,7 @@ export class CaptureFramesApp {
     chrome.runtime.onMessage.addListener(this.onMessage)
     document.addEventListener('fullscreenchange', this.onFullscreenChange)
     addEventListener('pagehide', this.onPageHide)
-    this.focus()
+    if (!this.waitingForAutoVideo) this.focus()
   }
 
   private readonly onMessage = (
@@ -165,6 +172,10 @@ export class CaptureFramesApp {
     const target = this.selector.resolve(candidates)
     if (target?.element !== this.target?.element) this.bindTarget(target)
     else this.target = target
+    if (this.waitingForAutoVideo && candidates.length > 0) {
+      this.waitingForAutoVideo = false
+      this.toolbar.setHidden(false)
+    }
     this.refreshToolbar()
   }
 

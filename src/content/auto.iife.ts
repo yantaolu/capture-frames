@@ -1,3 +1,3 @@
 import { activateCaptureFrames } from './entry'
 
-activateCaptureFrames('manual')
+activateCaptureFrames('auto')

@@ -6,6 +6,7 @@ export interface Settings {
   showToasts: boolean
   rememberToolbarPosition: boolean
   autoVisibleCaptureFallback: boolean
+  autoEnableSites: string[]
   toolbarPosition: { x: number; y: number } | null
 }
 
@@ -17,6 +18,7 @@ export const DEFAULT_SETTINGS: Settings = {
   showToasts: true,
   rememberToolbarPosition: true,
   autoVisibleCaptureFallback: false,
+  autoEnableSites: [],
   toolbarPosition: null,
 }
 

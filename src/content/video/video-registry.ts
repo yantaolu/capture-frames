@@ -79,6 +79,21 @@ export class VideoRegistry {
     }, 100)
   }
 
+  private readonly onMutations = (records: MutationRecord[]): void => {
+    const selector = 'video, source, iframe'
+    const hasRelevantChange = records.some((record) => {
+      if (record.type === 'attributes') {
+        return (record.target as Element).matches?.(selector) ?? false
+      }
+      return [...record.addedNodes, ...record.removedNodes].some((node) => {
+        if (node.nodeType !== Node.ELEMENT_NODE) return false
+        const element = node as Element
+        return element.matches(selector) || element.querySelector(selector) !== null
+      })
+    })
+    if (hasRelevantChange) this.scheduleMutationScan()
+  }
+
   private scan(): void {
     if (!this.running) return
     const documents = this.collectDocuments(document)
@@ -165,7 +180,7 @@ export class VideoRegistry {
     }
     for (const currentDocument of documents) {
       if (this.observers.has(currentDocument) || !currentDocument.documentElement) continue
-      const observer = new MutationObserver(this.scheduleMutationScan)
+      const observer = new MutationObserver(this.onMutations)
       observer.observe(currentDocument.documentElement, {
         childList: true,
         subtree: true,

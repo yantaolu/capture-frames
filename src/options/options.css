@@ -40,7 +40,8 @@ label.check {
   justify-content: flex-start;
 }
 select,
-input[type='number'] {
+input[type='number'],
+input[type='text'] {
   width: 180px;
   padding: 7px 9px;
   border: 1px solid #b8c4d0;
@@ -63,6 +64,10 @@ button {
 button.secondary {
   background: #687686;
 }
+button:disabled {
+  cursor: default;
+  opacity: 0.58;
+}
 #status {
   color: #167344;
 }
@@ -78,4 +83,40 @@ dl div {
 dd {
   margin: 0;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.site-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+.site-form input[type='text'] {
+  box-sizing: border-box;
+  width: 100%;
+}
+.site-list {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.site-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #edf0f3;
+}
+.site-list code {
+  overflow-wrap: anywhere;
+}
+.site-list button {
+  flex: none;
+  padding: 5px 10px;
+}
+@media (max-width: 640px) {
+  .site-form {
+    grid-template-columns: 1fr;
+  }
 }
