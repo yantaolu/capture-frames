@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>逐帧截图设置</title>
+    <link rel="stylesheet" href="./options.css" />
+  </head>
+  <body>
+    <main>
+      <h1>逐帧截图设置</h1>
+      <p class="intro">视频和截图均在本地处理，不会上传。</p>
+
+      <section>
+        <h2>逐帧</h2>
+        <label>
+          帧率模式
+          <select id="fps-mode">
+            <option value="auto">自动检测</option>
+            <option value="manual">手动指定</option>
+          </select>
+        </label>
+        <label>
+          手动 FPS
+          <input id="manual-fps" type="number" min="1" max="240" step="0.001" />
+        </label>
+      </section>
+
+      <section>
+        <h2>导出与界面</h2>
+        <label class="check"><input id="include-title" type="checkbox" /> 文件名包含页面标题</label>
+        <label class="check"><input id="auto-scroll" type="checkbox" /> 切换视频时滚动到目标</label>
+        <label class="check"><input id="show-toasts" type="checkbox" /> 显示操作提示</label>
+        <label class="check"><input id="remember-position" type="checkbox" /> 记住控制条位置</label>
+        <label class="check"
+          ><input id="auto-fallback" type="checkbox" /> 跨域失败时自动截取可见区域</label
+        >
+      </section>
+
+      <div class="actions">
+        <button id="save" type="button">保存设置</button>
+        <button id="reset" type="button" class="secondary">恢复默认</button>
+        <span id="status" role="status"></span>
+      </div>
+
+      <section>
+        <h2>默认快捷键</h2>
+        <dl>
+          <div>
+            <dt>后退一帧</dt>
+            <dd>Ctrl/⌘ + Shift + ,</dd>
+          </div>
+          <div>
+            <dt>自动逐帧播放/停止</dt>
+            <dd>Ctrl/⌘ + Shift + P</dd>
+          </div>
+          <div>
+            <dt>前进一帧</dt>
+            <dd>Ctrl/⌘ + Shift + .</dd>
+          </div>
+          <div>
+            <dt>导出当前帧</dt>
+            <dd>Ctrl/⌘ + Shift + E</dd>
+          </div>
+        </dl>
+        <p class="hint">可在 chrome://extensions/shortcuts 中修改。</p>
+      </section>
+    </main>
+    <script type="module" src="./index.ts"></script>
+  </body>
+</html>

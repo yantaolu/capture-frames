@@ -1,0 +1,135 @@
+:host {
+  all: initial;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.cf-shell {
+  position: fixed;
+  top: 76px;
+  right: 16px;
+  z-index: 2147483646;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  min-height: 25px;
+  padding: 6px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #dbe5ef;
+  cursor: move;
+  user-select: none;
+  touch-action: none;
+  transition: opacity 120ms ease;
+}
+
+.cf-shell[data-hidden='true'] {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.cf-select {
+  box-sizing: border-box;
+  width: 190px;
+  height: 25px;
+  padding: 0 24px 0 7px;
+  border: 1px solid #4b5661;
+  border-radius: 0;
+  outline: none;
+  background: #161b20;
+  color: #dbe5ef;
+  font:
+    11px/1.2 -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.55);
+  cursor: default;
+}
+
+.cf-select:focus-visible,
+.cf-button:focus-visible {
+  outline: 1px solid #40d8ff;
+  outline-offset: 1px;
+}
+
+.cf-button {
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 25px;
+  padding: 0;
+  border: 1px solid #4b5661;
+  border-radius: 0;
+  background: linear-gradient(180deg, #38414b, #22282f);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.65),
+    inset 0 1px rgba(255, 255, 255, 0.1);
+  color: #dce6f0;
+  cursor: pointer;
+}
+
+.cf-button:hover:not(:disabled) {
+  color: #40d8ff;
+  border-color: #607583;
+  background: linear-gradient(180deg, #465460, #29343d);
+}
+
+.cf-button:active:not(:disabled) {
+  background: #171c21;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.75);
+}
+
+.cf-button:disabled {
+  cursor: wait;
+  opacity: 0.42;
+}
+
+.cf-button svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+}
+
+.cf-toast {
+  position: fixed;
+  z-index: 2147483647;
+  top: 16px;
+  right: 16px;
+  max-width: min(420px, calc(100vw - 32px));
+  padding: 8px 12px;
+  border: 1px solid #56616d;
+  border-radius: 0;
+  background: rgba(17, 21, 26, 0.96);
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.45);
+  color: #edf5fc;
+  font:
+    12px/1.35 -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(calc(100% + 24px));
+  transition:
+    opacity 160ms ease,
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cf-toast[data-visible='true'] {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cf-shell,
+  .cf-toast {
+    transition: none;
+  }
+}
